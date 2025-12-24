@@ -1,0 +1,79 @@
+# created by virtualenv automatically
+############################
+# Python cache & bytecode
+############################
+__pycache__/
+*.py[cod]
+*$py.class
+
+############################
+# Jupyter / Notebook
+############################
+.ipynb_checkpoints/
+
+############################
+# Virtual Environment
+############################
+bin/
+include/
+lib/
+share/
+pyvenv.cfg
+
+############################
+# Environment variables
+############################
+.env
+.env.*
+*.env
+
+############################
+# FAISS / Embeddings / Indexes
+############################
+faiss_indexes/
+csv_embedding/
+pdf_embedding/
+
+############################
+# Uploaded data (runtime data)
+############################
+upload_csv/
+upload_pdf/
+data/
+
+############################
+# Neo4j / Graph store
+############################
+graph_store/
+
+############################
+# Temporary files (Voice bot / Audio)
+############################
+temp_voice/
+*.wav
+*.mp3
+
+############################
+# Logs
+############################
+*.log
+logs/
+
+############################
+# OS / Editor specific
+############################
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+############################
+# Jupyter (system / runtime configs)
+############################
+etc/jupyter/
+etc/jupyter/jupyter_notebook_config.d/
+etc/jupyter/jupyter_server_config.d/
+etc/jupyter/labconfig/
+etc/jupyter/nbconfig/
+
+

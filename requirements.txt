@@ -1,0 +1,14 @@
+# Core Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+websockets==12.0
+
+# AI Models
+faster-whisper==0.10.0
+# piper-tts  ← REMOVED (incompatible with Python 3.12)
+
+# Audio Processing
+pydub==0.25.1
+
+# Configuration
+python-dotenv==1.0.0
