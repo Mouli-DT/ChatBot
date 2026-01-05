@@ -28,7 +28,6 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-os.environ["HUGGINGFACEHUB_API_TOKEN"] = os.getenv("HUGGINGFACEHUB_API_TOKEN")
 
 csv_dir = os.path.abspath("./upload_csv")
 pdf_dir = os.path.abspath("./upload_pdf")
