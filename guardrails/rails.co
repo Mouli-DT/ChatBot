@@ -1,0 +1,32 @@
+define user ask_for_credentials
+  /.*admin.*credential.*/
+  /.*password.*/
+  /.*login.*/
+  /.*username.*/
+
+
+define user violence_or_weapon
+  /.*bomb.*/
+  /.*explosive.*/
+  /.*weapon.*/
+  /.*kill.*/
+
+
+define user illegal_activity
+  /.*hack.*/
+  /.*steal.*/
+  /.*bypass security.*/
+
+define flow block_credentials
+  user ask_for_credentials
+  bot "I can’t help with credentials or access-related requests."
+
+define flow block_violence
+  user violence_or_weapon
+  bot "I can’t assist with anything involving violence or weapons."
+
+define flow block_illegal
+  user illegal_activity
+  bot "I can’t help with illegal activities."
+
+

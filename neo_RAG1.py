@@ -21,6 +21,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain.retrievers import MergerRetriever
 from langchain_core.runnables import RunnableLambda
 from collections import defaultdict
+from nemoguardrails import LLMRails, RailsConfig
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
@@ -39,6 +40,9 @@ os.makedirs(VECTOR_STORE_PDF_DIR, exist_ok=True)
 
 llm = OllamaLLM(model="gemma3:4b-it-qat")
 embedder = OllamaEmbeddings(model="mxbai-embed-large:latest")
+
+rails_config = RailsConfig.from_path("./guardrails")
+nemo_rails = LLMRails(rails_config)
 
 # ---------------- Neo4j Config ----------------
 NEO4J_URI = "bolt://172.30.13.21:7687"
@@ -337,10 +341,46 @@ def is_thanking(text):
 def is_creator_question(text):
     return any(re.search(p, text.lower()) for p in [r'who (created|built|developed)', r'creator', r'designed you'])
 
+def nemo_policy_check(user_input: str):
+    # response = nemo_rails.generate(
+    #     messages=[{"role": "user", "content": user_input}]
+    # )
+
+    # print("NeMo raw response:", response)
+
+    # if isinstance(response, dict):
+    #     content = response.get("content", "").strip()
+
+        # If input rails fired, content is empty → block
+        # if content == "":
+            text = user_input.lower()
+
+            if re.search(r"admin|password|credential|login", text):
+                return True, "I can’t help with credentials or access-related requests."
+
+            if re.search(r"bomb|explosive|weapon|kill", text):
+                return True, "I can’t assist with anything involving violence or weapons."
+
+            if re.search(r"hack|bypass|steal", text):
+                return True, "I can’t help with illegal activities."
+
+            # return True, "This request is not allowed."
+
+        # Future-proof (output rails)
+        # return True, content
+
+            return False, None
+
+
 def chat_response(user_input, mode="concise", session_id="default"):
     if not user_input:
         return "Please enter a question."
 
+    # NeMo Guardrails
+    blocked, message = nemo_policy_check(user_input)
+    if blocked:
+        return message
+    
     if is_greeting(user_input):
         return "Hello! 👋 How can I assist you today?"
     if is_thanking(user_input):
